@@ -95,14 +95,17 @@ class Session:
     need: Need = field(default_factory=Need)
     asked: str | None = None
     as_of: date | None = None  # default: newest price in the store
+    llm_parse: dict | None = None  # what the LLM extracted on the last turn (None = rules only)
 
     def handle(self, text: str) -> str:
         if re.fullmatch(r"\W*(yeni|sifirla|bastan|basa don)\W*", fold(text)):  # whole message only
             self.need, self.asked = Need(), None
             return "Tamam, baştan başlayalım. Ne arıyorsunuz?"
         got = parse_need(text, self.asked)
+        self.llm_parse = None
         if self.chat and (got.category is None or got.max_price is None):
             extra = parse_need_llm(text, self.chat)
+            self.llm_parse = {k: v for k, v in vars(extra).items() if v is not None}
             for k in ("category", "max_price", "inches"):
                 if getattr(got, k) is None:
                     setattr(got, k, getattr(extra, k))

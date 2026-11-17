@@ -1,4 +1,4 @@
-== Sentetik fixture: tüm ürünler ==
+== 1. Fiyat geçmişinden karar (sentetik veri, model gerekmez) ==
 KARAR              PUAN   MED.        FİYAT  ÜRÜN
 (MED. = 180 günlük medyana göre fark; ! = sahte indirim işareti)
 GERÇEK FIRSAT      36.1   -37%    21.499 TL  [3 kaynak] Lumora LX-55Q7 55 inç 4K UHD QLED Smart TV
@@ -16,13 +16,43 @@ SAHTE İNDİRİM       0.0    -0%    21.999 TL  [2 kaynak] Orvia OR-55X9 55 inç
 YETERSİZ VERİ       0.0      -    18.999 TL  [2 kaynak] Tessa TS-55N1 55 inç 4K UHD LED Smart TV
 SAHTE İNDİRİM       0.0    -0%    20.999 TL  [2 kaynak] Zentra ZP9 Cep Telefonu 8/128 GB 6.6" Ekran Resmi Distribütö !
 
-> Merhaba, televizyon bakıyorum
-Televizyon için bütçe üst sınırınız nedir? (örn. 25.000 TL)
+== 2. Gerekçeler: 55 inç televizyonlar ==
+- QLED 4K UHD 140 cm Ekran Televizyon Lumora LX-55Q7 - 21.499 TL (magaza-c) [sentetik veri]
+   Karar: GERÇEK FIRSAT (puan 36/100)
+   Neden: Fiyat 180 günlük medyanın %37 altında; son 180 günde bu fiyat veya altı görülen gün oranı yalnızca %0.
+   Kanıt: 180 gün medyan 34.099 TL, 90 gün medyan 34.699 TL, 180 gün en düşük 32.399 TL, en yüksek 35.599 TL; 195 günlük geçmiş, 143 gözlem günü, 3 mağaza.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: QLED; Akıllı TV: var; Yenileme (Hz): 120
 
-> 25.000 TL
-Kaç inç ekran istiyorsunuz? (örn. 55; fark etmezse "fark etmez" yazın)
+- LED 4K UHD 140 cm Ekran Televizyon Novix NV-55U5 - 21.899 TL (magaza-c) [sentetik veri]
+   Karar: KOZMETİK İNDİRİM
+   Neden: Medyanın %9 altında ama gerçek fırsat değil (eşik %30).
+   Kanıt: 180 gün medyan 23.999 TL, 90 gün medyan 23.999 TL, 180 gün en düşük 21.799 TL, en yüksek 24.199 TL; 190 günlük geçmiş, 164 gözlem günü, 3 mağaza.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
 
-> 55 inç
+- LED 4K UHD 140 cm Ekran Televizyon Kestrel KS-55M3 - 22.499 TL (magaza-c) [sentetik veri]
+   Karar: SAHTE İNDİRİM
+   Neden: Görünen indirim %36, ama 180 günlük medyana göre fark yalnızca %2.
+   Kanıt: 180 gün medyan 22.999 TL, 90 gün medyan 22.999 TL, 180 gün en düşük 22.699 TL, en yüksek 23.299 TL; 190 günlük geçmiş, 129 gözlem günü, 2 mağaza.
+   Uyarı: Üstü çizili liste fiyatı (34.999 TL) son 180 günde hiç uygulanmamış; görülen en yüksek fiyat 23.299 TL.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
+
+- QLED 4K UHD 140 cm Ekran Televizyon Orvia OR-55X9 - 21.999 TL (magaza-c) [sentetik veri]
+   Karar: SAHTE İNDİRİM
+   Neden: Görünen indirim %24, ama 180 günlük medyana göre fark yalnızca %0.
+   Kanıt: 180 gün medyan 21.999 TL, 90 gün medyan 22.099 TL, 180 gün en düşük 21.699 TL, en yüksek 28.799 TL; 185 günlük geçmiş, 138 gözlem günü, 2 mağaza.
+   Uyarı: Son 30 günde fiyat 28.799 TL'ye çıkarılmış (180 günlük medyan 21.999 TL); indirim bu şişirilmiş fiyattan hesaplanıyor.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: QLED; Akıllı TV: var; Yenileme (Hz): 100
+
+- Tessa TS55N1 55" LED 4K UHD Akıllı Televizyon Resmi Distribütör Garantili - 18.999 TL (magaza-b) [sentetik veri]
+   Karar: YETERSİZ VERİ
+   Neden: Geçmiş çok kısa: 20 gün / 15 gözlem günü (en az 90 gün ve 8 gözlem günü gerekir). Karar verilmedi.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
+
+== 3. Öneri botu ile örnek sohbet ==
+[mode: replay (recorded gemini/gemini-3.5-flash-lite, 2026-11-17); model yalnızca kuralların okuyamadığı mesajı ayrıştırır]
+
+> 55 inç TV, 25.000 TL altı
+[ayrıştırma: kurallar]
 55 inç televizyon, en fazla 25.000 TL için 1 gerçek fırsat buldum:
 
 1. QLED 4K UHD 140 cm Ekran Televizyon Lumora LX-55Q7 - 21.499 TL (magaza-c) [sentetik veri]
@@ -55,6 +85,27 @@ Bütçenize uyan ama fırsat sayılmayan ürünler:
    Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
 
 Not: 'SAHTE İNDİRİM' olanlarda görünen indirim gerçek fiyat geçmişiyle desteklenmiyor.
+
+(Kural: 180 günlük medyanın en az %30 altında ve nadir görülen fiyat.)
+
+> yeni
+[ayrıştırma: kurallar]
+Tamam, baştan başlayalım. Ne arıyorsunuz?
+
+> Salona büyük ekran bir televizyon lazım, bütçem otuz bini geçmesin
+[ayrıştırma: kurallar + model {"category": "tv", "max_price": 30000.0}]
+Kaç inç ekran istiyorsunuz? (örn. 55; fark etmezse "fark etmez" yazın)
+
+> 65 inç olsun
+[ayrıştırma: kurallar + model {"inches": 65.0}]
+65 inç televizyon, en fazla 30.000 TL için 1 gerçek fırsat buldum:
+
+1. Zentra ZN65Q8 65" QLED 4K UHD Akıllı Televizyon Resmi Distribütör Garantili - 29.999 TL (magaza-b) [sentetik veri]
+   Karar: GERÇEK FIRSAT (puan 34/100)
+   Neden: Fiyat 180 günlük medyanın %35 altında; son 180 günde bu fiyat veya altı görülen gün oranı yalnızca %0.
+   Kanıt: 180 gün medyan 45.999 TL, 90 gün medyan 45.899 TL, 180 gün en düşük 45.099 TL, en yüksek 46.899 TL; 195 günlük geçmiş, 132 gözlem günü, 2 mağaza.
+   Uyarı: Üstü çizili liste fiyatı (49.999 TL) son 180 günde hiç uygulanmamış; görülen en yüksek fiyat 46.899 TL.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 65; Panel: QLED; Akıllı TV: var; Yenileme (Hz): 120
 
 (Kural: 180 günlük medyanın en az %30 altında ve nadir görülen fiyat.)
 

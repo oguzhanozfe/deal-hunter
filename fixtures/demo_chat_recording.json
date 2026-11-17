@@ -1,0 +1,26 @@
+{
+ "note": "Recorded by `python -m deal_hunter demo --record`; replayed when no model is available.",
+ "backend": "gemini",
+ "model": "gemini-3.5-flash-lite",
+ "recorded_at": "2026-11-17T11:42:28+00:00",
+ "pairs": [
+  {
+   "key": "cf6f48312e710e2b2be45c641bc0c316ea3407b2aa3c63fa69bece498ac12ecc",
+   "user": "Salona büyük ekran bir televizyon lazım, bütçem otuz bini geçmesin",
+   "response": {
+    "category": "tv",
+    "max_price": 30000,
+    "inches": null
+   }
+  },
+  {
+   "key": "d2d30490828974dd8552167caab9a940032c01714c55ef86e50101f03aeaa532",
+   "user": "65 inç olsun",
+   "response": {
+    "category": null,
+    "max_price": null,
+    "inches": 65
+   }
+  }
+ ]
+}

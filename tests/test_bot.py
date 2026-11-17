@@ -106,3 +106,18 @@ class BotTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DemoReplayTests(unittest.TestCase):
+    def test_demo_replays_recorded_model_without_keys(self):
+        import contextlib
+        import io
+        from deal_hunter.demo import run
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            transcript = run(force_replay=True)
+        out = buf.getvalue()
+        self.assertIn("mode: replay (recorded", out)
+        self.assertNotIn("UYARI", out)  # every model turn was found in the recording
+        self.assertIn('"max_price": 30000', transcript[2][1])  # spelled-out budget read by the recorded model
+        self.assertIn("GERÇEK FIRSAT", transcript[3][2])

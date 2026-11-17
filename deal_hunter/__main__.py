@@ -1,6 +1,6 @@
 """deal-hunter CLI.
 
-  python -m deal_hunter demo                      # offline: synthetic fixture + scripted chat
+  python -m deal_hunter demo [--replay|--record]  # synthetic fixture + scripted chat (no key needed)
   python -m deal_hunter import-csv FILE           # add a CSV price history (see fixtures/ for columns)
   python -m deal_hunter collect-openprices        # real run against the Open Prices API (TRY prices)
   python -m deal_hunter import-openprices FILE    # load a recorded Open Prices run
@@ -26,7 +26,6 @@ from .store import Store
 from .text import fmt_tl
 
 FIXTURES = Path(__file__).resolve().parent.parent / "fixtures"
-DEMO_SCRIPT = ["Merhaba, televizyon bakıyorum", "25.000 TL", "55 inç"]
 
 
 def deals_table(store: Store, category: str | None, cfg: DealConfig, as_of=None) -> str:
@@ -51,7 +50,8 @@ def main(argv=None) -> None:
                     help="date of 'now' (YYYY-MM-DD); default: newest price in the DB")
     ap.add_argument("--min-depth", type=float, default=0.30, help="deal threshold vs 180-day median (0.30 = 30%%)")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("demo")
+    p = sub.add_parser("demo"); p.add_argument("--replay", action="store_true", help="never call a live model")
+    p.add_argument("--record", action="store_true", help="re-record fixtures/demo_chat_recording.json")
     p = sub.add_parser("import-csv"); p.add_argument("path")
     p = sub.add_parser("collect-openprices"); p.add_argument("--pages", type=int, default=5)
     p.add_argument("--save", help="write the slimmed raw items to this JSON file")
@@ -63,13 +63,8 @@ def main(argv=None) -> None:
     cfg = DealConfig(min_depth=a.min_depth)
 
     if a.cmd == "demo":
-        store = Store()
-        store.add(CsvSource(str(FIXTURES / "synthetic_history.csv")).fetch())
-        store.set_product_keys(group_listings(store.listings()))
-        print("== Sentetik fixture: tüm ürünler ==\n" + deals_table(store, None, cfg) + "\n")
-        s = Session(store, cfg)
-        for msg in DEMO_SCRIPT:
-            print(f"> {msg}\n{s.handle(msg)}\n")
+        from .demo import run
+        run(a.replay, a.record, cfg)
         return
 
     store = Store(a.db)
