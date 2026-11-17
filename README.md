@@ -11,7 +11,7 @@ Stdlib-only Python 3.10+, SQLite, an optional local LLM through Ollama. Tests ru
 ## Quick start
 
 ```bash
-python -m unittest -v              # 35 offline tests
+python -m unittest -v              # 41 offline tests
 python -m deal_hunter demo         # verdicts for the synthetic fixture + a scripted chat
 ```
 
@@ -29,12 +29,13 @@ TELEGRAM_BOT_TOKEN=... python -m deal_hunter chat --telegram   # optional
 
 All thresholds are in `DealConfig` ([deal_hunter/deals.py](deal_hunter/deals.py)); `--min-depth` changes the main one from the CLI.
 
+0. **Only a fresh, in-stock price counts as "current".** The current price comes from each listing's latest row, if it is in stock and at most 3 days old relative to "now" (`--as-of`, default: the newest price in the database). Otherwise the verdict is `GÜNCEL FİYAT YOK` (no current price) and the product is never recommended.
 1. **Refuse to judge on thin history.** It needs at least 90 days of history and 8 days with a real observation. Otherwise the verdict is `YETERSİZ VERİ` (insufficient data).
 2. **Build a fair daily series.** Out-of-stock rows are dropped. Several snapshots on one day collapse to that day's minimum, and each price is carried forward until the next observation (at most 14 days). Snapshots are irregular, so this time-weighting stops a burst of snapshots during one sale week from dragging the median down. When a product is sold by several stores, the daily price is the cheapest store.
 3. **Compare today's price with the 30/90/180-day median, min, max and percentiles** of the history before today.
 4. **`GERÇEK FIRSAT` (real deal):** at least **30% below the 180-day median** *and* rare. On at most 10% of the last 180 days was the price at or below today's price (+3%).
 5. **`SAHTE İNDİRİM` (fake discount):** not a real deal, the claimed discount is at least 10%, and either
-   - the price was **raised in the last 30 days** (30-day peak ≥ median +15%), so the "discount" is measured from an inflated price, or
+   - the price was **raised in the last 30 days** to a new high (30-day peak ≥ median +15% *and* ≥ 5% above the peak of the 150 days before), so the "discount" is measured from an inflated price. A product that always swings does not trip this on one of its usual peaks. Or:
    - the **struck-through list price was never actually charged** in the last 180 days.
 
    A real deal that also shows an inflated list price stays a deal and carries a warning.
@@ -55,6 +56,8 @@ All thresholds are in `DealConfig` ([deal_hunter/deals.py](deal_hunter/deals.py)
 | 40 days of history | −50% | YETERSİZ VERİ | `test_refuses_to_judge_short_history` |
 | swings between 20,000 and 40,000 | 19,900 | not a deal: −50% vs median, but that price is common | `test_deep_but_not_rare_in_volatile_history_is_not_a_deal` |
 | ~30,000, plus 50 snapshots at 20,000 on one sale day | — | the 180-day median stays 30,000 | `test_snapshot_burst_does_not_drag_median` |
+| ±18% swings, one usual peak inside the last 30 days | back at the median | not fake | `test_natural_swing_peaking_recently_is_not_fake` |
+| last in-stock row is 30 days old, or newest row is out of stock | — | GÜNCEL FİYAT YOK | `test_stale_price_is_not_current`, `test_latest_row_out_of_stock_is_not_current` |
 
 ## Cross-site product matching
 
@@ -63,13 +66,12 @@ Different stores title the same product differently (`Lumora LM-55QX700 139 cm 4
 - **Deterministic rules first**, with Turkish-aware normalisation (`İ`/`ı`, `inç`/`"`/`cm`/`Ekran`, `8/256 GB`). Different brand, accessory ("… için …", spare parts), refurbished, Pro/Lite/Max/Air variants, model code, size, capacity, litres, colour, connector, 4G/5G, panel or resolution → **different**. The same brand and model code (ignoring dashes and a single regional suffix letter) → **same**.
 - **The LLM is consulted only when the rules cannot decide** (usually a model code missing on one side). It sees the two titles and returns `{"same": bool, "reason": str}`.
 
-**Measured on a labelled set** ([fixtures/match_pairs.csv](fixtures/match_pairs.csv)): 120 pairs, 54 same and 66 different. At least half the negatives are hard (55 vs 65 inch, 128 vs 256 GB, Pro vs non-Pro, accessories, refurbished). Titles use fictional brands. The set was **written and labelled by a separate AI agent that never saw the matcher**. It is split into dev (48 pairs, used to tune the rules) and a held-out test split (72 pairs, not used for tuning).
+**Measured on a labelled set** ([fixtures/match_pairs.csv](fixtures/match_pairs.csv)): 120 pairs, 54 same and 66 different. The negatives include near-misses such as 55 vs 65 inch, 128 vs 256 GB, Pro vs non-Pro, accessories and refurbished items. Titles use fictional brands. The set was **written and labelled by a separate AI agent that never saw the matcher**. No human has audited the labels. It is split into dev (48 pairs, used to tune the rules) and a held-out test split (72 pairs, not used for tuning).
 
 | Mode (test split, 72 pairs) | Precision | Recall | LLM calls | Results file |
 |---|---|---|---|---|
 | Rules only | **0.962** (25/26) | 0.714 (25/35) | 0 | [results/matching_rules_test.json](results/matching_rules_test.json) |
 | Rules + LLM (`qwen3.5:9b`, Ollama) | **0.968** (30/31) | 0.857 (30/35) | 6 | [results/matching_rules_llm_test.json](results/matching_rules_llm_test.json) |
-LLM_ONLY_ROW
 
 The dev split scores precision 1.00 / recall 0.95 with rules only. That is the split the rules were tuned on, so the test-split numbers are the honest ones. Precision matters more than recall here: a wrong merge mixes two products' price histories and can create a fake "deal". A missed merge only means one store's history is used.
 
@@ -105,9 +107,9 @@ Checked on 2026-11-17 with an identifying user agent (`deal-hunter/0.1 (+repo UR
 
 | Site | robots.txt | Terms / feeds | Decision |
 |---|---|---|---|
-| **Akakçe** | Product pages allowed for `*`; `/c/`, search and query parameters disallowed. | The usage agreement (Kullanım Sözleşmesi, art. 5.6 and 7.5(b)) forbids copying, reproducing or processing the site's databases, catalogues and lists, and competing with it. No public API found. | **Not collected.** |
+| **Akakçe** | Product pages allowed for `*`; `/c/`, search and query parameters disallowed. | The [usage agreement](https://www.akakce.com/kullanim-sozlesmesi/) lists copying, reproducing, distributing or processing the site's "veritabanlarını, katalogları ve listeleri" without permission among the grounds for ending a user's access. Users also undertake not to compete with akakce.com through such acts. No public API found. | **Not collected.** |
 | **Cimri** | Product pages allowed for `*`; `/api/`, search and filters disallowed. | The terms page returned **403** to our client, so it could not be read. No public API found. | **Not collected.** Terms not retrievable, so treated as not permitted. |
-| **Trendyol** | Product pages allowed for `*`; many query parameters disallowed. | The terms page returned **403** to our client. The official API ([developers.trendyol.com](https://developers.trendyol.com)) is for sellers' own stores, not a price feed. | **Not collected.** |
+| **Trendyol** | Product pages allowed for `*`; many query parameters disallowed. | Every non-robots page we requested, including the likely terms URLs, returned **403** to our client, so the terms could not be read. The official API ([developers.trendyol.com](https://developers.trendyol.com)) is for sellers' own stores, not a price feed. | **Not collected.** |
 | **Hepsiburada** | `robots.txt` itself is behind a bot-protection page (403). | Not retrievable either; no public price API found. | **Not collected.** We do not work around bot protection. |
 | **Open Prices** (Open Food Facts) | Empty robots.txt (200); documented public API. | Data under **ODbL 1.0**; attribution required. | **Collected** (real run below). |
 | marketfiyati.org.tr (TÜBİTAK) | Allows all. | No published terms or documented API found. | **Not collected** until terms are published. |

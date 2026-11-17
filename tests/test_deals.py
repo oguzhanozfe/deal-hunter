@@ -2,7 +2,7 @@
 import unittest
 from datetime import date, timedelta
 
-from deal_hunter.deals import COSMETIC, DEAL, FAKE, INSUFFICIENT, NORMAL, DealConfig, Obs, analyze
+from deal_hunter.deals import COSMETIC, DEAL, FAKE, INSUFFICIENT, NORMAL, STALE, DealConfig, Obs, analyze
 
 TODAY = date(2026, 11, 15)
 
@@ -109,6 +109,33 @@ class DealRuleTests(unittest.TestCase):
         self.assertEqual(v.current, 19_000)
         self.assertEqual(v.stats["median_180"], 30_000)
         self.assertEqual(v.verdict, DEAL)
+
+    def test_natural_swing_peaking_recently_is_not_fake(self):
+        # +-18% swings with a ~60-day period; one of the usual peaks falls inside the last 30 days
+        import math
+        h = {age: round(30_000 * (1 + 0.18 * math.cos(2 * math.pi * (age - 15) / 60))) for age in range(180, 0, -2)}
+        h[0] = 30_000  # back near the median, no list price
+        v = analyze(history(h))
+        self.assertNotEqual(v.verdict, FAKE, (v.flags, v.stats))
+
+    def test_stale_price_is_not_current(self):
+        h = history(steady(33_000))
+        h.append(Obs(TODAY, 20_000))
+        v = analyze(h, as_of=TODAY + timedelta(days=30))
+        self.assertEqual((v.verdict, v.current), (STALE, None))
+
+    def test_latest_row_out_of_stock_is_not_current(self):
+        h = history(steady(33_000))
+        h.append(Obs(TODAY - timedelta(days=1), 20_000))
+        h.append(Obs(TODAY, 20_000, in_stock=False))
+        self.assertEqual(analyze(h).verdict, STALE)
+
+    def test_out_of_stock_store_falls_back_to_other_store(self):
+        a = [Obs(TODAY - timedelta(days=d), 30_000, listing="a") for d in range(180, 0, -3)]
+        a.append(Obs(TODAY, 19_000, in_stock=False, listing="a"))
+        a.append(Obs(TODAY, 29_500, listing="b"))
+        v = analyze(a)
+        self.assertEqual(v.current, 29_500)
 
     def test_threshold_is_configurable(self):
         h = steady(30_000)

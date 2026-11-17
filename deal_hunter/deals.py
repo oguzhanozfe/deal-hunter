@@ -1,6 +1,9 @@
 """Deal scoring: is today's price a real deal against the product's own history?
 
 Rule (defaults in DealConfig):
+  0. "Current" means: the latest row of each listing, if it is in stock and at most
+     `max_age_days` old relative to `as_of` (default: the newest row of any listing).
+     No such row -> GÜNCEL FİYAT YOK (no current price; never recommended).
   1. Refuse to judge without enough history (span and number of observed days).
   2. Build a daily price series: out-of-stock rows dropped, several snapshots on one
      day collapse to that day's minimum, and each price is carried forward until the
@@ -15,7 +18,8 @@ Rule (defaults in DealConfig):
      today's price (+`rare_tolerance`).
   5. SAHTE İNDİRİM (fake discount): not a real deal, a claimed discount of at least
      `claim_min` exists, and either
-       - the price was raised in the last 30 days (30-day peak >= median * (1+inflate_pct))
+       - the price was raised in the last 30 days to a level not seen in the 150 days before
+         (30-day peak >= median * (1+inflate_pct) and >= the earlier peak * (1+new_high_pct)),
          so the "discount" is measured from an inflated price, or
        - the struck-through list price was never actually charged in 180 days.
      A real deal that also shows a never-charged list price stays a deal; the flag is
@@ -36,6 +40,7 @@ FAKE = "SAHTE İNDİRİM"
 COSMETIC = "KOZMETİK İNDİRİM"
 NORMAL = "NORMAL"
 INSUFFICIENT = "YETERSİZ VERİ"
+STALE = "GÜNCEL FİYAT YOK"
 
 
 @dataclass(frozen=True)
@@ -47,6 +52,8 @@ class DealConfig:
     min_observed_days: int = 8       # with at least this many days that have a real observation
     ffill_days: int = 14             # carry a price forward at most this long
     inflate_pct: float = 0.15        # 30-day peak this far above the median = "inflated"
+    new_high_pct: float = 0.05       # ...and this far above the peak of days 31-180 (a new high, not a usual swing)
+    max_age_days: int = 3            # a "current" price must be at most this old
     claim_min: float = 0.10          # a claimed discount smaller than this is ignored
     list_tolerance: float = 0.02     # list price within 2% of a charged price counts as charged
     cosmetic_min: float = 0.03       # below median by less than this is just noise
@@ -111,14 +118,26 @@ def _window(series: dict[date, float], today: date, days: int) -> list[float]:
     return [p for d, p in series.items() if start <= d < today]
 
 
-def analyze(obs: list[Obs], cfg: DealConfig = DealConfig()) -> Verdict:
+def current_offers(obs: list[Obs], as_of: date, max_age: int) -> list[Obs]:
+    """Latest row per listing, kept only if in stock and fresh."""
+    latest: dict[str, Obs] = {}
+    for o in obs:
+        if o.listing not in latest or o.day >= latest[o.listing].day:
+            latest[o.listing] = o
+    return [o for o in latest.values() if o.in_stock and (as_of - o.day).days <= max_age]
+
+
+def analyze(obs: list[Obs], cfg: DealConfig = DealConfig(), as_of: date | None = None) -> Verdict:
+    if not obs:
+        return Verdict(STALE, reasons=["Hiç fiyat gözlemi yok."])
+    as_of = as_of or max(o.day for o in obs)
+    offers = current_offers(obs, as_of, cfg.max_age_days)
+    if not offers:
+        return Verdict(STALE, reasons=[f"{as_of.isoformat()} itibarıyla stokta olan güncel bir fiyat yok "
+                                       f"(son {cfg.max_age_days} gün)."])
+    cur_obs = min(offers, key=lambda o: o.price)
+    cur, today = cur_obs.price, cur_obs.day
     stocked = [o for o in obs if o.in_stock]
-    if not stocked:
-        return Verdict(INSUFFICIENT, reasons=["Stokta olan hiçbir fiyat gözlemi yok."])
-    today = max(o.day for o in stocked)
-    todays = [o for o in stocked if o.day == today]
-    cur_obs = min(todays, key=lambda o: o.price)
-    cur = cur_obs.price
 
     series = daily_series(obs, today, cfg.ffill_days)
     observed_days = {o.day for o in stocked if o.day < today and o.day >= today - timedelta(days=180)}
@@ -151,7 +170,9 @@ def analyze(obs: list[Obs], cfg: DealConfig = DealConfig()) -> Verdict:
 
     flags, claims = [], [0.0]
     peak30 = stats.get("max_30", med)
-    if peak30 >= med * (1 + cfg.inflate_pct):
+    earlier = [p for d, p in series.items() if today - timedelta(days=180) <= d < today - timedelta(days=30)]
+    new_high = not earlier or peak30 >= max(earlier) * (1 + cfg.new_high_pct)
+    if peak30 >= med * (1 + cfg.inflate_pct) and new_high:
         claims.append(1 - cur / peak30)
         if 1 - cur / peak30 >= cfg.claim_min:
             flags.append(f"Son 30 günde fiyat {peak30:,.0f} TL'ye çıkarılmış (180 günlük medyan {med:,.0f} TL); "

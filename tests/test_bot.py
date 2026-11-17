@@ -45,6 +45,17 @@ class BotTests(unittest.TestCase):
         reply = s.handle("fark etmez")
         self.assertIn("ZN-65Q8", reply.replace("ZN65Q8", "ZN-65Q8"))
 
+    def test_reset_only_on_whole_message(self):
+        s = Session(self.store)
+        self.assertIn("bütçe", s.handle("yeni bir televizyon istiyorum"))  # "yeni" inside a request
+        self.assertIn("baştan", s.handle("yeni"))
+        self.assertIn("Hangi ürünü", s.handle("merhaba"))
+
+    def test_stale_products_are_not_recommended(self):
+        from datetime import date
+        reply = Session(self.store, as_of=date(2026, 12, 31)).handle("55 inç 25.000 TL televizyon")
+        self.assertIn("kayıtlı ürün bulamadım", reply)
+
     def test_no_deal_says_so(self):
         reply = Session(self.store).handle("kulaklık 5.000 TL")
         self.assertIn("gerçek bir fırsat yok", reply)

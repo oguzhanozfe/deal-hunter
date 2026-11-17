@@ -100,6 +100,10 @@ class Store:
             out.setdefault(r["product_key"] or f"L{r['id']}", []).append(r)
         return out
 
+    def latest_day(self) -> date | None:
+        row = self.db.execute("SELECT MAX(ts) FROM prices").fetchone()[0]
+        return date.fromisoformat(row[:10]) if row else None
+
     def history(self, listing_ids: list[int]) -> list[Obs]:
         marks = ",".join("?" * len(listing_ids))
         rows = self.db.execute(

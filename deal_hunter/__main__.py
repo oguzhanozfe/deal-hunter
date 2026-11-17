@@ -15,7 +15,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from .bot import Session, run_telegram
@@ -29,10 +29,11 @@ FIXTURES = Path(__file__).resolve().parent.parent / "fixtures"
 DEMO_SCRIPT = ["Merhaba, televizyon bakıyorum", "25.000 TL", "55 inç"]
 
 
-def deals_table(store: Store, category: str | None, cfg: DealConfig) -> str:
+def deals_table(store: Store, category: str | None, cfg: DealConfig, as_of=None) -> str:
     rows = []
+    as_of = as_of or store.latest_day()
     for listings in store.products(category).values():
-        v = analyze(store.history([l["id"] for l in listings]), cfg)
+        v = analyze(store.history([l["id"] for l in listings]), cfg, as_of)
         title = min(listings, key=lambda l: l["id"])["title"]
         depth = f"{-v.stats['depth'] * 100:+.0f}%" if "depth" in v.stats else "-"
         cur = fmt_tl(v.current) if v.current else "-"
@@ -46,6 +47,8 @@ def deals_table(store: Store, category: str | None, cfg: DealConfig) -> str:
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(prog="deal_hunter")
     ap.add_argument("--db", default=os.environ.get("DEAL_HUNTER_DB", "deal_hunter.db"))
+    ap.add_argument("--as-of", type=date.fromisoformat,
+                    help="date of 'now' (YYYY-MM-DD); default: newest price in the DB")
     ap.add_argument("--min-depth", type=float, default=0.30, help="deal threshold vs 180-day median (0.30 = 30%%)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("demo")
@@ -90,7 +93,7 @@ def main(argv=None) -> None:
         store.set_product_keys(keys)
         print(f"{len(keys)} ilan {len(set(keys.values()))} ürüne gruplandı.")
     elif a.cmd == "deals":
-        print(deals_table(store, a.category, cfg))
+        print(deals_table(store, a.category, cfg, a.as_of))
     elif a.cmd == "chat":
         chat = None
         if a.llm:
@@ -99,7 +102,7 @@ def main(argv=None) -> None:
         if a.telegram:
             run_telegram(store, chat=chat)
             return
-        s = Session(store, cfg, chat=chat)
+        s = Session(store, cfg, chat=chat, as_of=a.as_of)
         print("Ne arıyorsunuz? (çıkmak için Ctrl+D, baştan başlamak için 'yeni')")
         for line in sys.stdin:
             if line.strip():

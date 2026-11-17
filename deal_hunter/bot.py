@@ -13,8 +13,9 @@ import time
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
+from datetime import date
 
-from .deals import DEAL, FAKE, INSUFFICIENT, DealConfig, analyze
+from .deals import DEAL, FAKE, INSUFFICIENT, STALE, DealConfig, analyze, current_offers
 from .store import Store
 from .text import fmt_tl, fold, parse_amount, parse_inches
 
@@ -93,9 +94,10 @@ class Session:
     chat: object | None = None  # LLM callable (system, user) -> dict, optional
     need: Need = field(default_factory=Need)
     asked: str | None = None
+    as_of: date | None = None  # default: newest price in the store
 
     def handle(self, text: str) -> str:
-        if re.search(r"\b(yeni|sifirla|bastan)\b", fold(text)):
+        if re.fullmatch(r"\W*(yeni|sifirla|bastan|basa don)\W*", fold(text)):  # whole message only
             self.need, self.asked = Need(), None
             return "Tamam, baştan başlayalım. Ne arıyorsunuz?"
         got = parse_need(text, self.asked)
@@ -118,17 +120,17 @@ class Session:
             self.asked = "inches"
             return "Kaç inç ekran istiyorsunuz? (örn. 55; fark etmezse \"fark etmez\" yazın)"
         self.asked = None
-        return recommend(self.store, n, self.cfg)
+        return recommend(self.store, n, self.cfg, as_of=self.as_of)
 
 
-def _candidates(store: Store, need: Need, cfg: DealConfig):
+def _candidates(store: Store, need: Need, cfg: DealConfig, as_of: date):
     for listings in store.products(need.category).values():
-        v = analyze(store.history([l["id"] for l in listings]), cfg)
-        if v.current is None:
-            continue
+        obs = store.history([l["id"] for l in listings])
+        v = analyze(obs, cfg, as_of)
+        if v.verdict == STALE:
+            continue  # out of stock or no fresh price: never recommended
         by_id = {str(l["id"]): l for l in listings}
-        today = [o for o in store.history(list(map(int, by_id))) if o.day == v.current_day and o.in_stock]
-        best = by_id[min(today, key=lambda o: o.price).listing]
+        best = by_id[min(current_offers(obs, as_of, cfg.max_age_days), key=lambda o: o.price).listing]
         if v.current > need.max_price:
             continue
         if isinstance(need.inches, float):
@@ -146,7 +148,8 @@ def describe(v, best: dict, listings: list[dict], rank: int | None = None) -> st
     lines.append(f"   Karar: {v.verdict}" + (f" (puan {v.score:.0f}/100)" if v.verdict == DEAL else ""))
     lines += [f"   Neden: {r}" for r in v.reasons]
     if v.verdict != INSUFFICIENT:
-        lines.append(f"   Kanıt: 180 gün medyan {fmt_tl(s['median_180'])}, 90 gün medyan {fmt_tl(s['median_90'])}, "
+        m90 = f"90 gün medyan {fmt_tl(s['median_90'])}, " if "median_90" in s else ""
+        lines.append(f"   Kanıt: 180 gün medyan {fmt_tl(s['median_180'])}, {m90}"
                      f"180 gün en düşük {fmt_tl(s['min_180'])}, en yüksek {fmt_tl(s['max_180'])}; "
                      f"{s['history_days']} günlük geçmiş, {s['observed_days']} gözlem günü, {len(listings)} mağaza.")
     lines += [f"   Uyarı: {f}" for f in v.flags]
@@ -156,8 +159,10 @@ def describe(v, best: dict, listings: list[dict], rank: int | None = None) -> st
     return "\n".join(lines)
 
 
-def recommend(store: Store, need: Need, cfg: DealConfig = DealConfig(), limit: int = 3) -> str:
-    cands = list(_candidates(store, need, cfg))
+def recommend(store: Store, need: Need, cfg: DealConfig = DealConfig(), limit: int = 3,
+              as_of: date | None = None) -> str:
+    as_of = as_of or store.latest_day()
+    cands = list(_candidates(store, need, cfg, as_of)) if as_of else []
     deals = sorted((c for c in cands if c[0].verdict == DEAL), key=lambda c: -c[0].score)
     others = sorted((c for c in cands if c[0].verdict != DEAL), key=lambda c: c[0].current)
     size = f"{need.inches:g} inç " if isinstance(need.inches, float) else ""
