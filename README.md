@@ -73,8 +73,11 @@ Different stores title the same product differently (`Lumora LM-55QX700 139 cm 4
 | Rules only | none | **0.962** (25/26) | 0.714 (25/35) | 0 | [matching_rules_test.json](results/matching_rules_test.json) |
 | Rules + LLM (default) | `gemini-3.5-flash-lite` (Gemini API) | **0.969** (31/32) | 0.886 (31/35) | 6 | [matching_rules_llm_test_gemini-3.5-flash-lite.json](results/matching_rules_llm_test_gemini-3.5-flash-lite.json) |
 | Rules + LLM (local) | `qwen3.5:9b` (Ollama) | **0.968** (30/31) | 0.857 (30/35) | 6 | [matching_rules_llm_test_qwen3.5-9b.json](results/matching_rules_llm_test_qwen3.5-9b.json) |
+| LLM only (baseline, no rules) | `gemma-4-31b-it` (Gemini API) | **1.000** (32/32) | 0.941 (32/34) | 70 answered of 72; 2 skipped after repeated HTTP 503 | [matching_llm_test_gemma-4-31b-it.json](results/matching_llm_test_gemma-4-31b-it.json) |
 
 With rules + LLM, the LLM only sees the 6 test pairs the rules could not settle, so the two LLM rows differ by one pair. That difference is too small to rank the models.
+
+The LLM-only baseline uses a different model, so it is not a like-for-like comparison with the rules + LLM rows. On this set, a 31B model reading every pair beats the rules on recall without losing precision. It needed 72 calls instead of 6, though, at about 30 s each on the shared free tier, and 2 pairs never got an answer. Rules + LLM stays the default because it costs 12 times fewer calls and works offline for every pair the rules settle.
 
 The dev split scores precision 1.00 / recall 0.95 with rules only. That is the split the rules were tuned on, so the test-split numbers are the honest ones. Precision matters more than recall here: a wrong merge mixes two products' price histories and can create a fake "deal". A missed merge only means one store's history is used.
 

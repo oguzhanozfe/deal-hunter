@@ -14,7 +14,9 @@ import csv
 import json
 import os
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -44,27 +46,38 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", default="rules", choices=["rules", "rules+llm", "llm"])
     ap.add_argument("--split", default="test", choices=["dev", "test", "all"])
+    ap.add_argument("--workers", type=int, default=4, help="concurrent LLM calls (keep 2-4 on shared quotas)")
     a = ap.parse_args()
     rows = [r for r in csv.DictReader(open(ROOT / "fixtures/match_pairs.csv", encoding="utf-8"))
             if a.split == "all" or r["split"] == a.split]
     tp = fp = fn = tn = llm_calls = 0
     per_pair, skipped = [], []
-    quota_hit = False
+    quota_hit = threading.Event()
 
-    def no_quota(system, user):
-        return chat_json(system, user, offline=True)  # cache only; LLMError if missing
-    t0 = time.time()
-    for r in rows:
-        gold = r["same"] == "1"
+    def chat(system, user):
+        if quota_hit.is_set():
+            return chat_json(system, user, offline=True)  # cache only; LLMError if missing
         try:
-            same, by, why = decide(r["title_a"], r["title_b"], BRANDS, a.mode, chat=None if not quota_hit else no_quota)
-        except QuotaError as e:  # stop calling the provider; never loop on 429
-            quota_hit = True
-            skipped.append({"id": r["id"], "error": str(e)[:200]})
+            return chat_json(system, user)
+        except QuotaError:  # stop calling the provider; never loop on 429
+            quota_hit.set()
+            raise
+
+    def run(r):
+        try:
+            return decide(r["title_a"], r["title_b"], BRANDS, a.mode, chat=chat)
+        except LLMError as e:  # quota/outage: metrics cover answered pairs only
+            return e
+
+    t0 = time.time()
+    with ThreadPoolExecutor(max_workers=max(1, a.workers)) as ex:
+        results = list(ex.map(run, rows))
+    for r, res in zip(rows, results):
+        gold = r["same"] == "1"
+        if isinstance(res, Exception):
+            skipped.append({"id": r["id"], "error": str(res)[:200]})
             continue
-        except LLMError as e:  # quota/outage: record and keep going; metrics cover answered pairs only
-            skipped.append({"id": r["id"], "error": str(e)[:200]})
-            continue
+        same, by, why = res
         llm_calls += by == "llm"
         tp += same and gold
         fp += same and not gold

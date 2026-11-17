@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import re
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -51,6 +52,9 @@ def resolve(backend: str | None = None, model: str | None = None) -> tuple[str, 
     return b, base.rstrip("/"), m, key
 
 
+_LOCK = threading.Lock()
+
+
 class QuotaError(LLMError):
     """HTTP 429: the provider's quota is used up. Never retried in a loop."""
 
@@ -74,7 +78,7 @@ def _cache_get(key: str) -> dict | None:
 def _cache_put(key: str, meta: dict, response: dict) -> None:
     path = _cache_path()
     if path:
-        with open(path, "a", encoding="utf-8") as f:
+        with _LOCK, open(path, "a", encoding="utf-8") as f:
             f.write(json.dumps({"key": key, **meta, "response": response}, ensure_ascii=False) + "\n")
 
 
@@ -117,9 +121,10 @@ def chat_json(system: str, user: str, model: str | None = None, backend: str | N
                 data = json.loads(r.read())
             out = parse_reply(data["choices"][0]["message"]["content"] or "")
             usage = data.get("usage") or {}
-            USAGE["calls"] += 1
-            USAGE["prompt_tokens"] += usage.get("prompt_tokens", 0)
-            USAGE["completion_tokens"] += usage.get("completion_tokens", 0)
+            with _LOCK:
+                USAGE["calls"] += 1
+                USAGE["prompt_tokens"] += usage.get("prompt_tokens", 0)
+                USAGE["completion_tokens"] += usage.get("completion_tokens", 0)
             _cache_put(ckey, {"backend": b, "model": m}, out)
             return out
         except urllib.error.HTTPError as e:

@@ -1,0 +1,50 @@
+{
+ "mode": "llm",
+ "split": "test",
+ "pairs": 72,
+ "answered": 70,
+ "skipped": [
+  {
+   "id": "p010",
+   "error": "LLM call to gemini/gemma-4-31b-it failed: HTTP 503 from gemini: [{\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporar"
+  },
+  {
+   "id": "p020",
+   "error": "LLM call to gemini/gemma-4-31b-it failed: HTTP 503 from gemini: [{\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporar"
+  }
+ ],
+ "precision": 1.0,
+ "recall": 0.9412,
+ "tp": 32,
+ "fp": 0,
+ "fn": 2,
+ "tn": 36,
+ "llm_calls": 70,
+ "backend": "gemini",
+ "model": "gemma-4-31b-it",
+ "model_digest": null,
+ "usage": {
+  "calls": 1,
+  "prompt_tokens": 135,
+  "completion_tokens": 24,
+  "cache_hits": 69
+ },
+ "seconds": 241.4,
+ "run_at": "2026-11-17T10:04:39+00:00",
+ "errors": [
+  {
+   "id": "p005",
+   "gold": true,
+   "pred": false,
+   "by": "llm",
+   "reason": "Different model numbers (LM55QX700T vs LM55QX700)"
+  },
+  {
+   "id": "p051",
+   "gold": true,
+   "pred": false,
+   "by": "llm",
+   "reason": "Different model numbers (NR380T vs NR380)"
+  }
+ ]
+}
