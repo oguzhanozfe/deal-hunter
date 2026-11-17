@@ -2,6 +2,8 @@
  "mode": "rules",
  "split": "test",
  "pairs": 72,
+ "answered": 72,
+ "skipped": [],
  "precision": 0.9615,
  "recall": 0.7143,
  "tp": 25,
@@ -9,10 +11,12 @@
  "fn": 10,
  "tn": 36,
  "llm_calls": 0,
+ "backend": null,
  "model": null,
  "model_digest": null,
+ "usage": null,
  "seconds": 0.0,
- "run_at": "2026-11-17T01:17:56+00:00",
+ "run_at": "2026-11-17T01:30:09+00:00",
  "errors": [
   {
    "id": "p003",

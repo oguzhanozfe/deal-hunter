@@ -4,14 +4,14 @@ A Turkish e-commerce deal detector that separates a **real deal** from a **cosme
 
 The question it answers: *"This 55-inch TV is 24% off. Is that real?"* A TV that is 10% off but has sold around that price for the last six months is not a deal. A TV that is 35% below its long-run price, at a level it has rarely reached, is one.
 
-Stdlib-only Python 3.10+, SQLite, an optional local LLM through Ollama. Tests run offline.
+Stdlib-only Python 3.10+, SQLite, and an optional LLM: Gemini by default, DeepSeek or a local Ollama as alternatives. Tests and CI need no key and no model.
 
 > **Data note.** Product prices in the demo are **synthetic** (fictional brands and stores, `synthetic=1` on every row). The one real collection run is from Open Prices (see below), which does not cover electronics. Read [Data access](#data-access-decisions-per-site) before pointing this at any real site.
 
 ## Quick start
 
 ```bash
-python -m unittest -v              # 41 offline tests
+python -m unittest -v              # 45 offline tests
 python -m deal_hunter demo         # verdicts for the synthetic fixture + a scripted chat
 ```
 
@@ -21,7 +21,7 @@ Using your own data:
 python -m deal_hunter import-csv my_prices.csv     # columns: see fixtures/synthetic_history.csv
 python -m deal_hunter match                        # merge the same product across sources
 python -m deal_hunter deals --category tv
-python -m deal_hunter chat                         # Turkish chat; add --llm to use Ollama for parsing
+python -m deal_hunter chat                         # Turkish chat; add --llm to let an LLM parse requests
 TELEGRAM_BOT_TOKEN=... python -m deal_hunter chat --telegram   # optional
 ```
 
@@ -68,10 +68,13 @@ Different stores title the same product differently (`Lumora LM-55QX700 139 cm 4
 
 **Measured on a labelled set** ([fixtures/match_pairs.csv](fixtures/match_pairs.csv)): 120 pairs, 54 same and 66 different. The negatives include near-misses such as 55 vs 65 inch, 128 vs 256 GB, Pro vs non-Pro, accessories and refurbished items. Titles use fictional brands. The set was **written and labelled by a separate AI agent that never saw the matcher**. No human has audited the labels. It is split into dev (48 pairs, used to tune the rules) and a held-out test split (72 pairs, not used for tuning).
 
-| Mode (test split, 72 pairs) | Precision | Recall | LLM calls | Results file |
-|---|---|---|---|---|
-| Rules only | **0.962** (25/26) | 0.714 (25/35) | 0 | [results/matching_rules_test.json](results/matching_rules_test.json) |
-| Rules + LLM (`qwen3.5:9b`, Ollama) | **0.968** (30/31) | 0.857 (30/35) | 6 | [results/matching_rules_llm_test.json](results/matching_rules_llm_test.json) |
+| Mode (test split, 72 pairs) | Model | Precision | Recall | LLM calls | Results file |
+|---|---|---|---|---|---|
+| Rules only | none | **0.962** (25/26) | 0.714 (25/35) | 0 | [matching_rules_test.json](results/matching_rules_test.json) |
+| Rules + LLM (default) | `gemini-3.5-flash-lite` (Gemini API) | **0.969** (31/32) | 0.886 (31/35) | 6 | [matching_rules_llm_test_gemini-3.5-flash-lite.json](results/matching_rules_llm_test_gemini-3.5-flash-lite.json) |
+| Rules + LLM (local) | `qwen3.5:9b` (Ollama) | **0.968** (30/31) | 0.857 (30/35) | 6 | [matching_rules_llm_test_qwen3.5-9b.json](results/matching_rules_llm_test_qwen3.5-9b.json) |
+
+With rules + LLM, the LLM only sees the 6 test pairs the rules could not settle, so the two LLM rows differ by one pair. That difference is too small to rank the models.
 
 The dev split scores precision 1.00 / recall 0.95 with rules only. That is the split the rules were tuned on, so the test-split numbers are the honest ones. Precision matters more than recall here: a wrong merge mixes two products' price histories and can create a fake "deal". A missed merge only means one store's history is used.
 
@@ -135,7 +138,7 @@ Every product comes out as **`YETERSİZ VERİ`**. Almost all have a single obser
 - **Nominal prices.** Turkish lira inflation pushes prices up over 180 days, so a nominal median overstates the "usual" price of older months. A 30% cut against a 180-day nominal median is therefore a bit easier to hit than in a low-inflation market. Deflating by CPI is not implemented.
 - **Thresholds are judgement calls** (30%, 10% rarity, 90 days, 15% inflation). They are configurable, not learned.
 - **List prices are only as good as the source.** The "never charged" check needs the struck-through price to be recorded.
-- **Matching** was measured on 120 fictional-brand pairs written by an AI labeller, not on real listings. Rules do not read GPU models or `Plus`/`+` spellings. The LLM path adds about 25 s per call on a shared Mac.
+- **Matching** was measured on 120 fictional-brand pairs written by an AI labeller, not on real listings. Rules do not read GPU models or `Plus`/`+` spellings. LLM responses from the eval runs are cached in [results/llm_cache.jsonl](results/llm_cache.jsonl), so reruns cost no quota.
 - The chat understands a small, rule-based Turkish vocabulary (four categories, budget, screen size). `--llm` widens what it understands, but not what it can say.
 
 ## Layout
@@ -146,12 +149,25 @@ deal_hunter/store.py      SQLite store (listings, prices)
 deal_hunter/sources.py    Source interface: CSV, Open Prices, page snapshots; robots.txt + polite client
 deal_hunter/matching.py   rules + LLM product matching
 deal_hunter/bot.py        Turkish chat, Telegram front-end
-deal_hunter/llm.py        Ollama / OpenAI-compatible JSON client (env vars)
+deal_hunter/llm.py        JSON chat client for Gemini / DeepSeek / Ollama / any OpenAI-compatible API
 scripts/make_fixtures.py  deterministic synthetic history generator
 scripts/eval_matching.py  matching precision/recall -> results/
 ```
 
-LLM settings: `DEAL_HUNTER_MODEL` (default `qwen3.5:9b`), `OLLAMA_HOST` (default `http://127.0.0.1:11434`), or `OPENAI_BASE_URL` + `OPENAI_API_KEY` for any OpenAI-compatible endpoint.
+### LLM backends
+
+The LLM is optional: the rules, the deal scoring and the chat all work without it. `DEAL_HUNTER_LLM_BACKEND` picks the backend (default `auto`):
+
+| Backend | Needs | Default model |
+|---|---|---|
+| `gemini` (first choice in `auto`) | `GEMINI_API_KEY` | `gemini-3.5-flash-lite` |
+| `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-chat` |
+| `ollama` (used by `auto` when no key is set) | a local Ollama at `OLLAMA_HOST` | `qwen3.5:9b` |
+| `openai` | `OPENAI_BASE_URL` + `OPENAI_API_KEY` | set `DEAL_HUNTER_MODEL` |
+
+`DEAL_HUNTER_MODEL` overrides the model. Keys are read from the environment only.
+
+**What leaves the machine with a cloud backend:** product listing titles (matching), and the user's chat message (with `--llm`). No price history and no keys are sent.
 
 ---
 

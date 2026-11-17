@@ -148,3 +148,45 @@ class StoreTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LLMBackendTests(unittest.TestCase):
+    def test_auto_prefers_gemini_then_deepseek_then_ollama(self):
+        from unittest import mock
+        from deal_hunter.llm import resolve
+        with mock.patch.dict("os.environ", {"GEMINI_API_KEY": "x", "DEEPSEEK_API_KEY": "y"}, clear=True):
+            self.assertEqual(resolve()[:3], ("gemini", "https://generativelanguage.googleapis.com/v1beta/openai",
+                                              "gemini-3.5-flash-lite"))
+        with mock.patch.dict("os.environ", {"DEEPSEEK_API_KEY": "y"}, clear=True):
+            self.assertEqual(resolve()[0], "deepseek")
+        with mock.patch.dict("os.environ", {}, clear=True):
+            self.assertEqual(resolve()[:3], ("ollama", "http://127.0.0.1:11434/v1", "qwen3.5:9b"))
+
+    def test_missing_key_is_an_error_not_a_silent_fallback(self):
+        from unittest import mock
+        from deal_hunter.llm import LLMError, resolve
+        with mock.patch.dict("os.environ", {"DEAL_HUNTER_LLM_BACKEND": "gemini"}, clear=True):
+            with self.assertRaises(LLMError):
+                resolve()
+
+    def test_parse_reply_strips_gemma_thoughts(self):
+        from deal_hunter.llm import parse_reply
+        self.assertEqual(parse_reply('<thought>hmm {"same": false}</thought>\n```json\n{"same": true}\n```'),
+                         {"same": True})
+
+    def test_cache_answers_offline(self):
+        import os
+        import tempfile
+        from unittest import mock
+        from deal_hunter import llm
+        with tempfile.TemporaryDirectory() as d:
+            env = {"DEAL_HUNTER_LLM_BACKEND": "gemini", "GEMINI_API_KEY": "x",
+                   "DEAL_HUNTER_LLM_CACHE": os.path.join(d, "c.jsonl")}
+            with mock.patch.dict("os.environ", env, clear=True):
+                with self.assertRaises(llm.LLMError):
+                    llm.chat_json("s", "u", offline=True)
+                b, _, m, _ = llm.resolve()
+                import hashlib, json as j
+                key = hashlib.sha256(j.dumps([b, m, "s", "u"], ensure_ascii=False).encode()).hexdigest()
+                llm._cache_put(key, {}, {"same": True})
+                self.assertEqual(llm.chat_json("s", "u", offline=True), {"same": True})
