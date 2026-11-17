@@ -1,0 +1,32 @@
+KARAR              PUAN   MED.        FİYAT  ÜRÜN
+(MED. = 180 günlük medyana göre fark; ! = sahte indirim işareti)
+YETERSİZ VERİ       0.0      -        38 TL  [1 kaynak] Chickpea Cakes
+YETERSİZ VERİ       0.0      -        99 TL  [1 kaynak] Buyuk Yumurta
+YETERSİZ VERİ       0.0      -       230 TL  [1 kaynak] Coskun Organik M Boy Yumurta 15'liCoskun Organik M Boy Yumur
+YETERSİZ VERİ       0.0      -       100 TL  [1 kaynak] Gezen Tavuk Yumurtası
+YETERSİZ VERİ       0.0      -        75 TL  [1 kaynak] algida cornetto oreo
+YETERSİZ VERİ       0.0      -        80 TL  [1 kaynak] NESCAFE Xpress Café Choco
+YETERSİZ VERİ       0.0      -        50 TL  [1 kaynak] Ferrero Rocher t3
+YETERSİZ VERİ       0.0      -       192 TL  [1 kaynak] Natural Yoghurt
+YETERSİZ VERİ       0.0      -        15 TL  [1 kaynak] Pürsu 0.5 lt
+YETERSİZ VERİ       0.0      -        20 TL  [1 kaynak] Dudi Çikolata Kaymak Kornet Dondurma
+YETERSİZ VERİ       0.0      -        54 TL  [1 kaynak] Kakao
+YETERSİZ VERİ       0.0      -       149 TL  [1 kaynak] FEASTABLES Milk Choco.
+YETERSİZ VERİ       0.0      -        27 TL  [1 kaynak] Kakao
+YETERSİZ VERİ       0.0      -       110 TL  [1 kaynak] Glutensiz Yulaf Ezmesi
+YETERSİZ VERİ       0.0      -        63 TL  [1 kaynak] Glutensiz Karabuğday Patlağı
+YETERSİZ VERİ       0.0      -        78 TL  [1 kaynak] Yeşil İç Mercimek
+YETERSİZ VERİ       0.0      -        44 TL  [1 kaynak] Pratik Hindi Füme
+YETERSİZ VERİ       0.0      -        36 TL  [1 kaynak] Kaf Kefir
+YETERSİZ VERİ       0.0      -        48 TL  [1 kaynak] 8690533091136
+YETERSİZ VERİ       0.0      -        46 TL  [1 kaynak] İçim Rahat Lactose-Free Semi-Skimmed Milk 1 L
+YETERSİZ VERİ       0.0      -        16 TL  [1 kaynak] Altınbaşak tahıl cipsi
+YETERSİZ VERİ       0.0      -       158 TL  [1 kaynak] Kakaolu Fındık Kreması
+YETERSİZ VERİ       0.0      -        28 TL  [1 kaynak] ETi Lifalif BİTTER ÇİKOLATALI YULAF BAR ✓Doğal Lif
+YETERSİZ VERİ       0.0      -        50 TL  [1 kaynak] Coca Cola
+YETERSİZ VERİ       0.0      -        18 TL  [1 kaynak] Karışık Meyve Aromalı Gazoz
+YETERSİZ VERİ       0.0      -        21 TL  [1 kaynak] İndomie Hazır Noodle Jumbo Paket
+YETERSİZ VERİ       0.0      -         0 TL  [1 kaynak] Plastik Poşet
+YETERSİZ VERİ       0.0      -       350 TL  [1 kaynak] Pistachio Paste
+YETERSİZ VERİ       0.0      -        25 TL  [1 kaynak] Eti Burçak Kurabi Lokmalık
+YETERSİZ VERİ       0.0      -        36 TL  [1 kaynak] Bran Bread

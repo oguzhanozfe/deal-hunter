@@ -1,0 +1,60 @@
+{
+ "mode": "rules+llm",
+ "split": "test",
+ "pairs": 72,
+ "precision": 0.9677,
+ "recall": 0.8571,
+ "tp": 30,
+ "fp": 1,
+ "fn": 5,
+ "tn": 36,
+ "llm_calls": 6,
+ "model": "qwen3.5:9b",
+ "model_digest": "56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90",
+ "seconds": 158.4,
+ "run_at": "2026-11-17T01:12:40+00:00",
+ "errors": [
+  {
+   "id": "p003",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "işlemci farklı"
+  },
+  {
+   "id": "p043",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "varyant farklı (['air'])"
+  },
+  {
+   "id": "p053",
+   "gold": false,
+   "pred": true,
+   "by": "rules",
+   "reason": "aynı marka ve model kodu"
+  },
+  {
+   "id": "p103",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "varyant farklı (['plus'])"
+  },
+  {
+   "id": "p106",
+   "gold": true,
+   "pred": false,
+   "by": "llm",
+   "reason": "Model mismatch: Title A specifies model 'OR43FH500' while Title B lacks a specific model number and includes 'Android', which may indicate a different OS or variant not confirmed in Title A."
+  },
+  {
+   "id": "p110",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "varyant farklı (['air'])"
+  }
+ ]
+}

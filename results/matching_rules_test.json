@@ -1,0 +1,95 @@
+{
+ "mode": "rules",
+ "split": "test",
+ "pairs": 72,
+ "precision": 0.9615,
+ "recall": 0.7143,
+ "tp": 25,
+ "fp": 1,
+ "fn": 10,
+ "tn": 36,
+ "llm_calls": 0,
+ "model": null,
+ "model_digest": null,
+ "seconds": 0.0,
+ "run_at": "2026-11-17T01:09:28+00:00",
+ "errors": [
+  {
+   "id": "p003",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "işlemci farklı"
+  },
+  {
+   "id": "p013",
+   "gold": true,
+   "pred": false,
+   "by": "rules-fallback",
+   "reason": "model kodu bir tarafta yok"
+  },
+  {
+   "id": "p036",
+   "gold": true,
+   "pred": false,
+   "by": "rules-fallback",
+   "reason": "model kodu bir tarafta yok"
+  },
+  {
+   "id": "p043",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "varyant farklı (['air'])"
+  },
+  {
+   "id": "p053",
+   "gold": false,
+   "pred": true,
+   "by": "rules",
+   "reason": "aynı marka ve model kodu"
+  },
+  {
+   "id": "p063",
+   "gold": true,
+   "pred": false,
+   "by": "rules-fallback",
+   "reason": "model kodu bir tarafta yok"
+  },
+  {
+   "id": "p080",
+   "gold": true,
+   "pred": false,
+   "by": "rules-fallback",
+   "reason": "model kodu bir tarafta yok"
+  },
+  {
+   "id": "p096",
+   "gold": true,
+   "pred": false,
+   "by": "rules-fallback",
+   "reason": "model kodu bir tarafta yok"
+  },
+  {
+   "id": "p103",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "varyant farklı (['plus'])"
+  },
+  {
+   "id": "p106",
+   "gold": true,
+   "pred": false,
+   "by": "rules-fallback",
+   "reason": "model kodu bir tarafta yok"
+  },
+  {
+   "id": "p110",
+   "gold": true,
+   "pred": false,
+   "by": "rules",
+   "reason": "varyant farklı (['air'])"
+  }
+ ]
+}

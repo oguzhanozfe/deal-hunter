@@ -1,0 +1,121 @@
+id,split,category,title_a,title_b,same,note
+p001,test,telefon,Lumora Nova 5G 256 GB 8 GB RAM,Lumora Nova 4G 256 GB 8 GB RAM,0,5G vs 4G model
+p002,dev,buzdolabi,Novix NR380 Kombi No Frost 380 L Buzdolabı,Novix NR380 Buzdolabı için Raf Sepeti Çekmece Seti,0,spare drawer accessory vs fridge
+p003,test,laptop,"Novix NX16 Studio Ryzen 7 7840HS 32 GB 1 TB SSD 16"" Laptop",Novix NX16 Studio AMD R7 7840HS 32 GB RAM 1 TB SSD 16 inç Dizüstü Bilgisayar,1,"same model, CPU named differently"
+p004,dev,kulaklik,Orvia Air2 Kablosuz Kulaklık Beyaz,Orvia Air2 Kablosuz Kulaklık Siyah,0,different colours (separate SKUs)
+p005,test,tv,Lumora LM55QX700T 55 inç 4K Smart TV,Lumora LM55QX700 55 inç 139 cm 4K Ultra HD Smart TV,1,"T is Turkey regional suffix, same hardware/specs"
+p006,test,telefon,Novix X7 128 GB 4 GB RAM Akıllı Telefon,Novix X7 4/128 GB Cep Telefonu 2 Yıl Garanti,1,same model and specs
+p007,dev,telefon,Orvia S12 128 GB 6 GB RAM,Orvia S12 128 GB 8 GB RAM,0,6 vs 8 GB RAM
+p008,test,kulaklik,Kestrel KH700 Oyuncu Kulaklığı Mikrofonlu 7.1 USB,Kestrel KH-700 7.1 Surround USB Gaming Kulaklık Mikrofonlu,1,"dash variant, same features"
+p009,dev,buzdolabi,Lumora LF560X Gardırop Tipi 560 L Inox,Lumora LF560X Gardırop Tipi 560 L Siyah Cam,0,Inox vs black glass finish
+p010,test,tv,Lumora 55 inç 139 Ekran 4K Ultra HD Smart TV LM55QX700,"LUMORA LM-55QX700 55"" Uydu Alıcılı 4K Smart LED TV",1,"same model; dash in code, inch/cm wording differs"
+p011,test,tv,Lumora LM55QX700 55 inç 4K Ultra HD Smart LED TV,Lumora 139 cm 4K Ultra HD Smart TV LM55QX700 2 Yıl Garanti,1,139 cm equals 55 inch; same code
+p012,dev,telefon,Orvia S12 128 GB 8 GB RAM Akıllı Telefon,Orvia S12 8 GB 128 GB Cep Telefonu (Distribütör Garantili),1,"same model, word order"
+p013,test,telefon,Lumora Nova 5G 256 GB Akıllı Telefon 8 GB RAM Çift Hatlı,Lumora Nova 5G 8 GB RAM 256 GB Cep Telefonu 2 Yıl Garanti,1,same model and specs
+p014,dev,kulaklik,Novix NB-300 Bluetooth Kulaklık,Novix NB-300 Kulaklık için Yedek Kulak Yastığı Pedi,0,ear-pad accessory vs headphones
+p015,test,laptop,"Lumora LB16 Studio i7-13700H 32 GB 1 TB 16""","Lumora LB14 Studio i7-13700H 32 GB 1 TB 14""",0,16 vs 14 inch variants
+p016,test,tv,Orvia OR43FH500 43 inç Full HD Smart TV,Orvia OR50FH500 50 inç Full HD Smart TV,0,43 vs 50 inch
+p017,dev,laptop,"Orvia OB15 i5-1235U 16 GB 512 GB SSD 15.6"" Laptop","Tessa TB15 i5-1235U 16 GB 512 GB SSD 15.6"" Laptop",0,"different brands, identical specs"
+p018,test,tv,Lumora LM55QX700 55 inç 4K Smart TV,Lumora LM55QX700 Smart TV için Uzaktan Kumanda,0,remote control accessory vs TV
+p019,dev,laptop,"Kestrel KL15 Air Ryzen 5 7530U 8 GB 256 GB SSD 15.6"" FHD Dizüstü Bilgisayar Gümüş",Kestrel KL15 Air 15.6 inç Ryzen 5 7530U 8 GB RAM 256 GB SSD Laptop,1,colour only on one side; only one colour offered
+p020,test,buzdolabi,Kestrel KR450W 450 L Beyaz Buzdolabı,Kestrel KR450S 450 L Inox Buzdolabı,0,different colour/finish (Beyaz vs Inox)
+p021,test,kulaklik,Zentra ZP9 Boyun Bantlı Bluetooth Kulaklık,Zentra ZP9 Neckband Kablosuz Kulaklık Siyah,1,"Boyun Bantlı = neckband; colour on one side, single colour"
+p022,dev,kulaklik,Kestrel KB200 Kablolu Kulak İçi Mikrofonlu Type-C Kulaklık,Kestrel KB-200 Type-C Kablolu Kulaklık Mikrofonlu,1,"dash variant, same connector"
+p023,test,tv,Novix NV55UH700 55 inç 4K Smart TV,"Yenilenmiş Novix NV55UH700 55"" Teşhir Ürünü 4K Smart TV",0,refurbished/display unit vs new
+p024,dev,buzdolabi,Zentra ZR600NF 600 L Inox Buzdolabı,Zentra ZR500NF 500 L Inox Buzdolabı,0,600 vs 500 L capacity
+p025,test,telefon,Orvia S12 Lite 128 GB 6 GB RAM Akıllı Telefon Siyah,Orvia S12 Lite 6/128 GB Cep Telefonu,1,colour only on one side; Siyah is the only colour offered
+p026,test,laptop,"Zentra ZB14 Slim i3-1215U 8 GB 256 GB SSD 14""","Yenilenmiş Zentra ZB14 Slim i3-1215U 8 GB 256 GB SSD 14""",0,refurbished vs new
+p027,dev,kulaklik,Lumora BudsX Pro Kulak İçi Bluetooth Kulaklık Siyah,Lumora BudsX Pro Siyah Kablosuz Kulaklık 2 Yıl Garantili,1,same model and colour
+p028,test,buzdolabi,Tessa TR320 Statik Üstten Donduruculu 320 L Buzdolabı,Tessa TR-320 Buzdolabı 320 Litre Üstten Donduruculu Statik,1,"dash variant, same specs"
+p029,dev,buzdolabi,Zentra ZR600NF 600 L Inox Buzdolabı,Yenilenmiş Zentra ZR600NF 600 L Inox Buzdolabı,0,refurbished vs new
+p030,test,laptop,"Novix NX14 Pro i5-1340P 16 GB 512 GB SSD 14"" Laptop","Novix NX14 i5-1340P 16 GB 512 GB SSD 14"" Laptop",0,Pro vs non-Pro
+p031,test,buzdolabi,Novix NR380 Kombi No Frost 380 L Gri Buzdolabı Resmi Distribütör,NOVIX NR380 380 Litre No Frost Buzdolabı,1,colour on one side only; only one colour offered
+p032,dev,tv,"Novix NV50UH600 50"" 127 Ekran 4K Ultra HD Smart TV (Siyah)",Novix NV-50UH600 Resmi Distribütör Garantili 50 inç Akıllı TV,1,"dash variant of code; colour only on one side, product is only black"
+p033,test,telefon,Orvia S12 Lite 128 GB 6 GB RAM Akıllı Telefon,Orvia S12 128 GB 6 GB RAM Akıllı Telefon,0,Lite vs regular
+p034,dev,laptop,"Lumora LB14 Go Intel N100 8 GB 128 GB 14"" Laptop","Lumora LB14 Go 14"" Laptop için Koruyucu Kılıf Çanta",0,sleeve accessory vs laptop
+p035,test,buzdolabi,Tessa TR320 Statik Üstten Donduruculu 320 L,Tessa TR320NF No Frost Üstten Donduruculu 320 L,0,Statik vs No Frost cooling
+p036,test,telefon,Zentra Z20 Max 512 GB 16 GB RAM Akıllı Telefon,Zentra Z 20 Max 16GB 512GB Cep Telefonu,1,"space in model name, same specs"
+p037,dev,tv,Kestrel 43 inç Full HD KS43F300 Smart LED TV,"Kestrel KS-43F300 43"" Full HD Smart LED Televizyon",1,"dash variant, same specs"
+p038,test,telefon,Zentra Z20 Max 512 GB 16 GB RAM,Yenilenmiş Zentra Z20 Max 512 GB 16 GB RAM Akıllı Telefon,0,refurbished vs new
+p039,dev,laptop,"Lumora LB14 Go Intel N100 8 GB 128 GB eMMC 14"" Laptop Gri",Lumora LB14 Go 14 inç N100 8 GB 128 GB Dizüstü,1,colour only on one side; only one colour offered
+p040,test,telefon,Zentra Z20 Max 512 GB 16 GB RAM,Zentra Z20 Mini 512 GB 16 GB RAM,0,Max vs Mini
+p041,test,buzdolabi,Tessa TR320 Statik 320 L Buzdolabı,Orvia TR320 Statik 320 L Buzdolabı,0,same code different brand
+p042,dev,laptop,"Kestrel KL15 Air Ryzen 5 7530U 8 GB 256 GB 15.6""","Kestrel KL15 Pro Ryzen 5 7530U 8 GB 256 GB 15.6""",0,Air vs Pro
+p043,test,kulaklik,Orvia Air2 Pro ANC TWS Kulaklık,Orvia Air 2 Pro Aktif Gürültü Engelleme Bluetooth Kulaklık,1,"same model, wording differs"
+p044,dev,kulaklik,Orvia Air2 Kablosuz Kulaklık,Orvia Air2 Pro Kablosuz Kulaklık,0,Air2 vs Air2 Pro
+p045,test,tv,Lumora LM55QX700 55 inç 4K Smart TV,Lumora SB200 Soundbar 2.1 Kablosuz Subwoofer,0,TV vs soundbar
+p046,test,laptop,Zentra ZB15 Gamer RTX 4050 i7-13650HX 16 GB 512 GB SSD,"ZENTRA ZB15 GAMER Oyuncu Laptop i7-13650HX 16 GB RAM 512 GB SSD RTX 4050 6 GB 15.6"" 144 Hz",1,"same model, second title adds extras but same spec set"
+p047,dev,laptop,"Tessa TB17 Büro i5-1335U 16 GB 512 GB SSD 17.3""",Tessa TB-17 Büro 17.3 inç Notebook i5 1335U 16 GB 512 GB SSD,1,"dash variant, same specs"
+p048,test,telefon,Kestrel K5 Lite 64 GB 4 GB RAM Akıllı Telefon Gri,Kestrel K5 Lite 4/64 GB Cep Telefonu,1,"same, only one colour exists"
+p049,dev,laptop,Novix NX14 Pro i5-1340P 8 GB RAM 512 GB SSD,Novix NX14 Pro i5-1340P 16 GB RAM 512 GB SSD,0,8 vs 16 GB RAM
+p050,test,buzdolabi,Lumora LF560X Side by Side 560 L Inox,Zentra ZR600NF Side by Side 600 L Inox,0,different brand and model
+p051,test,buzdolabi,Novix NR380T Kombi No Frost 380 L Buzdolabı,Novix NR380 Kombi No Frost 380 L Buzdolabı,1,"T is Turkey regional suffix, same appliance"
+p052,dev,telefon,Kestrel K9 256 GB 12 GB RAM Akıllı Telefon,Kestrel K9 Pro 256 GB 12 GB RAM Akıllı Telefon,0,Pro vs non-Pro
+p053,test,laptop,Zentra ZB15 Gamer RTX 4050 i7-13650HX 16 GB 512 GB,Zentra ZB15 Gamer RTX 4060 i7-13650HX 16 GB 512 GB,0,RTX 4050 vs 4060 GPU
+p054,dev,buzdolabi,Lumora LF560X Gardırop Tipi 560 L Inox Buzdolabı,Lumora LF560X Side by Side Buzdolabı 560 L Inox,1,Gardırop Tipi = side by side
+p055,test,kulaklik,Lumora BudsX Pro Kablosuz Kulaklık,Lumora BudsX Pro Kulaklık için Silikon Kılıf,0,case accessory vs earbuds
+p056,test,kulaklik,Tessa TW20 Kulak İçi Bluetooth 5.3 Kulaklık,Tessa TW-20 TWS Kablosuz Kulaklık Bluetooth 5.3 (2 Yıl Garanti),1,"dash variant, same specs"
+p057,dev,buzdolabi,Kestrel KR450W 450 L Buzdolabı,Kestrel KR450W Buzdolabı Kapı Contası Lastiği,0,door gasket spare vs fridge
+p058,test,kulaklik,Zentra ZP9 Boyun Bantlı Bluetooth Kulaklık,Tessa TW20 TWS Bluetooth Kulaklık,0,different products
+p059,dev,telefon,Orvia S12 Lite 128 GB 6 GB RAM,Orvia S12 Lite 256 GB 6 GB RAM,0,128 vs 256 GB
+p060,test,kulaklik,Tessa TW20 Bluetooth Kulaklık,Tessa TW20 Lite Bluetooth Kulaklık,0,Lite vs regular
+p061,test,laptop,Novix NX14 Pro i5-1340P 16 GB 512 GB SSD,Dizüstü Bilgisayar Novix 16 GB RAM 512 GB SSD i5-1340P NX14 Pro Resmi Distribütör Garantili,1,"word order differs, same model and specs"
+p062,dev,tv,Novix NV50UH600 50 inç 4K Ultra HD Smart TV,Tessa 50 inç 4K Ultra HD Smart TV TS50UH,0,different brand
+p063,test,telefon,Lumora Nova 5G 256 GB 8 GB RAM Akıllı Telefon,LUMORA NOVA 5G 8GB/256GB Cep Telefonu Resmi Distribütör Garantili,1,"same model and storage, different format"
+p064,dev,buzdolabi,Kestrel KR450W Alttan Donduruculu 450 L Beyaz Buzdolabı,Kestrel KR450W 450 lt No Frost Kombi Buzdolabı Beyaz 2 Yıl Garanti,1,"same code, L vs lt, wording"
+p065,test,telefon,Orvia S12 Lite 128 GB 6 GB RAM Mavi,Orvia S12 Lite 128 GB 6 GB RAM Siyah,0,different colour variants (separate SKUs)
+p066,test,laptop,"Lumora LB16 Studio i7-13700H 32 GB RAM 1 TB SSD 16"" 2.5K Laptop",Lumora LB-16 Studio Core i7 13700H 32GB 1TB SSD 16 inç Dizüstü,1,"dash in code and spaced CPU name, same specs"
+p067,dev,kulaklik,Kestrel KH700 Oyuncu Kulaklığı 7.1,Kestrel KH800 Oyuncu Kulaklığı 7.1,0,KH700 vs KH800 different model
+p068,test,buzdolabi,Orvia OR90 Mini Buzdolabı 90 L,Orvia OR-90 Ofis Tipi Mini Buzdolabı 90 Litre,1,"dash variant, same specs"
+p069,dev,buzdolabi,Zentra ZR600NF Buzdolabı,Zentra ZR600NF Buzdolabı için Su Filtresi,0,water filter accessory vs fridge
+p070,test,laptop,"Orvia OB13 Ultra i7-1360P 16 GB 1 TB 13.3"" Ultrabook","Kestrel KL15 Air Ryzen 5 7530U 8 GB 256 GB 15.6"" Laptop",0,entirely different products
+p071,test,laptop,"Novix NX14 Pro i5-1340P 16 GB RAM 512 GB SSD 14"" Windows 11 Laptop",NOVIX NX14 PRO Intel Core i5 1340P 16GB 512GB SSD 14 inç Notebook,1,"same model and specs, different formatting"
+p072,dev,tv,Lumora LM55QX700 55 inç 4K Ultra HD Smart TV,Novix NV55QX700 55 inç 4K Ultra HD Smart TV,0,same-looking model code but different brand
+p073,test,tv,Zentra ZT-55OL800 55 inç OLED 4K Smart TV,Zentra ZT-65OL800 65 inç OLED 4K Smart TV,0,55 vs 65 inch
+p074,dev,kulaklik,Tessa TW20 TWS Bluetooth Kulaklık Beyaz,Tessa TW20 Beyaz Kablosuz Kulak İçi Bluetooth Kulaklık,1,same model and colour
+p075,test,laptop,Novix NX14 Pro i5-1340P 16 GB 512 GB,Novix NX14 Pro i7-1360P 16 GB 512 GB,0,different CPU (i5 vs i7)
+p076,test,kulaklik,Kestrel KH700 Oyuncu Kulaklığı,Yenilenmiş Kestrel KH700 Oyuncu Kulaklığı,0,refurbished vs new
+p077,dev,kulaklik,Kestrel KB200 Type-C Kablolu Kulaklık,Kestrel KB200 3.5 mm Jack Kablolu Kulaklık,0,Type-C vs 3.5 mm connector
+p078,test,telefon,Novix X7 128 GB 4 GB RAM Akıllı Telefon,Novix X8 128 GB 4 GB RAM Akıllı Telefon,0,X7 vs X8 different generation
+p079,dev,tv,Tessa TS32HD200 32 inç HD Smart TV,Tessa TS32FH300 32 inç Full HD Smart TV,0,"HD vs Full HD, different model"
+p080,test,buzdolabi,Lumora Gardırop Tipi Side by Side 560 L Inox Buzdolabı,Lumora LF560X 560 L Inox Gardırop Tipi Buzdolabı,1,model code missing on one side; all specs equal and unambiguous
+p081,test,laptop,Novix NX14 Pro i5-1340P 16 GB 256 GB SSD,Novix NX14 Pro i5-1340P 16 GB 512 GB SSD,0,256 vs 512 GB storage
+p082,dev,tv,Zentra ZT55OL800 55 inç OLED 4K Smart TV,Zentra ZT55OL800 TV için Ayak Seti Standı,0,stand accessory vs TV
+p083,test,telefon,Novix X7 128 GB Akıllı Telefon,Novix X7 Ekran Koruyucu Temperli Cam,0,screen protector vs phone
+p084,dev,tv,Kestrel KS65Q900 65 inç QLED 4K Smart TV,"KESTREL 65"" QLED 4K Smart TV 165 cm KS-65Q900 Siyah",1,"dash code, cm equals inch; colour only on one side, only one colour exists"
+p085,test,kulaklik,Orvia Air2 Pro ANC TWS Kulaklık,Lumora BudsX Pro ANC TWS Kulaklık,0,different brands/products
+p086,test,buzdolabi,Orvia OR90 Mini Buzdolabı 90 L,Orvia OR150 Mini Buzdolabı 150 L,0,90 vs 150 L
+p087,dev,buzdolabi,Novix NR380 Kombi No Frost 380 L Buzdolabı,Novix NR380 Lite Kombi No Frost 380 L Buzdolabı,0,Lite vs regular
+p088,test,kulaklik,Tessa TW20 Bluetooth Kulaklık,Zentra TW20 Bluetooth Kulaklık,0,same code different brand
+p089,dev,kulaklik,Novix NB-300 Kulak Üstü Bluetooth Kulaklık Aktif Gürültü Engelleme,Novix NB300 ANC Kablosuz Kulaklık Siyah,1,"dash variant, ANC = active noise cancelling; single colour"
+p090,test,buzdolabi,Zentra ZR600NF No-Frost Çift Kapılı Buzdolabı 600 L Inox,ZENTRA ZR-600NF 600 Litre Gardırop Tipi No Frost Buzdolabı Inox,1,dash variant; Çift Kapılı and Gardırop Tipi both describe the same side-by-side body
+p091,test,buzdolabi,Orvia OR480 Kombi No Frost 480 L Inox,Orvia OR490 Kombi No Frost 480 L Inox,0,"OR480 vs OR490 code differs by one digit, different model year"
+p092,dev,kulaklik,Novix NB-300 Bluetooth Kulaklık,Novix NB-300 Pro Bluetooth Kulaklık,0,Pro vs non-Pro
+p093,test,kulaklik,Novix NB-300 Bluetooth Kulak Üstü Kulaklık Siyah,Novix NB-300 Aktif Gürültü Engellemeli Bluetooth Kulaklık Kulak Üstü Siyah (Yeni),1,"same model and colour, wording differs"
+p094,dev,laptop,"Tessa TB15 i5-1235U 16 GB 512 GB SSD 15.6"" FHD Laptop",Tessa 15.6 inç FHD Intel Core i5-1235U 16 GB RAM 512 GB SSD Dizüstü Bilgisayar,1,model code missing on one side; all specs equal and unambiguous
+p095,test,tv,Lumora LM55QX700 55 inç 4K Smart TV Siyah,Yenilenmiş Lumora LM55QX700 55 inç 4K Smart TV,0,refurbished vs new
+p096,test,kulaklik,Lumora BudsX Pro Kablosuz Bluetooth Kulaklık Siyah,Lumora BudsX Pro TWS Bluetooth Kulak İçi Kulaklık,1,"same model; colour on one side only, single colour"
+p097,dev,buzdolabi,Kestrel KR450W 450 L Alttan Donduruculu,Kestrel KR380W 380 L Alttan Donduruculu,0,"450 vs 380 L, different model"
+p098,test,telefon,Orvia S12 Lite 6 GB 128 GB (Orvia Türkiye Garantili) Akıllı Telefon,Orvia S12 Lite Akıllı Telefon 128 GB 6 GB RAM Siyah,1,"same model; colour on one side only, single colour"
+p099,dev,telefon,Orvia S12 Lite 128 GB Akıllı Telefon,Tessa T5 Plus 64 GB Akıllı Telefon,0,different products
+p100,test,buzdolabi,Orvia OR480 Kombi No Frost 480 L Inox Buzdolabı,Orvia OR-480 480 Litre Alttan Donduruculu Buzdolabı Inox,1,"dash variant, Kombi = bottom freezer"
+p101,test,laptop,"Orvia OB13 Ultra i7-1360P 16 GB 1 TB SSD 13.3"" Ultrabook",Orvia OB-13 Ultra 13.3 inç i7-1360P 16GB 1TB SSD Dizüstü,1,"dash variant, same specs"
+p102,dev,tv,Lumora LM75QX800 75 inç 4K Smart TV,"LM75QX800 Lumora 75"" 189 Ekran 4K Ultra HD Smart TV",1,code placement differs; same model
+p103,test,telefon,Tessa T5 Plus 64 GB 4 GB RAM Akıllı Telefon,Tessa T5+ 64 GB 4 GB RAM Cep Telefonu,1,Plus equals +
+p104,dev,telefon,"Zentra Z20 Max 512 GB 16 GB RAM Siyah 6.8"" Akıllı Telefon",Zentra Z20 Max 512GB 16GB RAM 17.3 cm Ekran Akıllı Telefon,1,"6.8 inch equals 17.3 cm; colour one side only, single colour"
+p105,test,tv,Lumora LM55QX700 55 inç 4K Ultra HD Smart TV,Lumora LM65QX700 65 inç 4K Ultra HD Smart TV,0,"same series, 55 vs 65 inch"
+p106,test,tv,Orvia OR43FH500 43 inç Full HD Smart TV,Orvia 43 inç Full HD Android Smart LED TV 109 Ekran,1,"model code missing on one side; brand, size, resolution equal and no other 43 Full HD Orvia listed"
+p107,dev,laptop,"Zentra ZB14 Slim i3-1215U 8 GB 256 GB SSD 14"" FreeDos Laptop",Zentra ZB14 Slim 14 inç Notebook i3-1215U 8GB 256GB SSD (2 Yıl Garanti),1,"same model, specs equal, seller noise"
+p108,test,telefon,Orvia S12 Lite 128 GB Akıllı Telefon,Orvia S12 Lite Telefon için Silikon Kılıf,0,case vs phone
+p109,dev,tv,Zentra ZT55OL800 55 inç OLED 4K Smart TV,Zentra ZT-55OL800 139 cm OLED 4K Ultra HD Smart TV Resmi Distribütör Garantili,1,"dash code, cm vs inch, seller noise"
+p110,test,kulaklik,Orvia Air2 Kablosuz Kulaklık Beyaz,ORVIA AIR 2 TWS Bluetooth Kulaklık Beyaz Resmi Distribütör Garantili,1,"space in name, same colour"
+p111,test,laptop,"Tessa TB17 Büro i5-1335U 16 GB 512 GB 17.3""","Tessa TB15 Büro i5-1335U 16 GB 512 GB 15.6""",0,"17.3 vs 15.6 inch, different model"
+p112,dev,tv,Lumora LM55QX700 55 inç 4K Smart TV,Lumora LM55QX800 55 inç 4K Smart TV,0,QX700 vs QX800 different model generation
+p113,test,telefon,Tessa T5 Plus 64 GB 4 GB RAM,Tessa T5 64 GB 4 GB RAM,0,Plus vs base
+p114,dev,buzdolabi,Zentra ZR600NF 600 L Inox Buzdolabı,Zentra ZR600NF Gardırop Tipi Buzdolabı 600 Litre Inox (Resmi Distribütör Garantili),1,"same model, seller noise"
+p115,test,tv,Novix 55 inç 4K Ultra HD Smart TV NV55UH700,"Novix NV55UH700 (2 Yıl Garanti) 55"" 139 cm Ekran 4K Akıllı Televizyon",1,"same code, word order and seller noise"
+p116,test,tv,Tessa TS32HD200 32 inç HD Smart TV,"Tessa 32"" 81 Ekran HD Ready Uydu Alıcılı Televizyon TS32HD200",1,"same code, very different wording, HD Ready = HD"
+p117,dev,kulaklik,Lumora BudsX Kablosuz Kulaklık,Lumora BudsX Pro Kablosuz Kulaklık,0,base vs Pro
+p118,test,telefon,Kestrel K9 Pro 256 GB 12 GB RAM Akıllı Telefon,Kestrel K9 Pro 12 GB RAM 256 GB Akıllı Telefon (Çift Hatlı),1,"word order differs, dual-SIM mention only noise"
+p119,dev,tv,Kestrel KS65Q900 65 inç QLED 4K Smart TV,Kestrel KS65Q950 65 inç Mini LED 4K Smart TV,0,different model and panel type
+p120,test,laptop,Novix NX14 Pro Laptop,Novix NX14 Pro Laptop için 65W Şarj Adaptörü,0,charger accessory vs laptop

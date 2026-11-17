@@ -1,0 +1,60 @@
+== Sentetik fixture: tüm ürünler ==
+KARAR              PUAN   MED.        FİYAT  ÜRÜN
+(MED. = 180 günlük medyana göre fark; ! = sahte indirim işareti)
+GERÇEK FIRSAT      36.1   -37%    21.499 TL  [3 kaynak] Lumora LX-55Q7 55 inç 4K UHD QLED Smart TV
+GERÇEK FIRSAT      35.6   -36%    15.999 TL  [3 kaynak] Lumora LP-X7 256 GB 8 GB RAM Akıllı Telefon
+GERÇEK FIRSAT      35.0   -35%    26.999 TL  [3 kaynak] Orvia OB-16X 16 inç Novix N5 8 çekirdek 16 GB RAM 512 GB SSD !
+GERÇEK FIRSAT      34.4   -35%    29.999 TL  [2 kaynak] Zentra ZN-65Q8 65 inç 4K UHD QLED Smart TV !
+KOZMETİK İNDİRİM   22.6   -25%    22.500 TL  [2 kaynak] Tessa TB-14A 14 inç Zentra Z3 4 çekirdek 8 GB RAM 256 GB SSD
+KOZMETİK İNDİRİM   10.4   -11%     2.500 TL  [2 kaynak] Tessa TK-ANC5 Kulak Üstü Bluetooth Kulaklık Aktif Gürültü En
+KOZMETİK İNDİRİM    8.6    -9%    21.899 TL  [3 kaynak] Novix NV-55U5 55 inç 4K UHD LED Smart TV
+SAHTE İNDİRİM       2.2    -2%    22.499 TL  [2 kaynak] Kestrel KS55M3 55" LED 4K UHD Akıllı Televizyon Resmi Distri !
+NORMAL              1.2    -1%    16.299 TL  [1 kaynak] LED Full HD 127 cm Ekran Televizyon Lumora LX-50F2
+NORMAL              0.6    -1%    17.899 TL  [2 kaynak] Kestrel KP-12 128 GB 6 GB RAM Akıllı Telefon
+NORMAL              0.5    -1%     1.880 TL  [1 kaynak] KK-AIR2 Kestrel Bluetooth kulak içi Kulaklık
+SAHTE İNDİRİM       0.0    -0%    21.999 TL  [2 kaynak] Orvia OR-55X9 55 inç 4K UHD QLED Smart TV !
+YETERSİZ VERİ       0.0      -    18.999 TL  [2 kaynak] Tessa TS-55N1 55 inç 4K UHD LED Smart TV
+SAHTE İNDİRİM       0.0    -0%    20.999 TL  [2 kaynak] Zentra ZP9 Cep Telefonu 8/128 GB 6.6" Ekran Resmi Distribütö !
+
+> Merhaba, televizyon bakıyorum
+Televizyon için bütçe üst sınırınız nedir? (örn. 25.000 TL)
+
+> 25.000 TL
+Kaç inç ekran istiyorsunuz? (örn. 55; fark etmezse "fark etmez" yazın)
+
+> 55 inç
+55 inç televizyon, en fazla 25.000 TL için 1 gerçek fırsat buldum:
+
+1. QLED 4K UHD 140 cm Ekran Televizyon Lumora LX-55Q7 - 21.499 TL (magaza-c) [sentetik veri]
+   Karar: GERÇEK FIRSAT (puan 36/100)
+   Neden: Fiyat 180 günlük medyanın %37 altında; son 180 günde bu fiyat veya altı görülen gün oranı yalnızca %0.
+   Kanıt: 180 gün medyan 34.099 TL, 90 gün medyan 34.699 TL, 180 gün en düşük 32.399 TL, en yüksek 35.599 TL; 195 günlük geçmiş, 143 gözlem günü, 3 mağaza.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: QLED; Akıllı TV: var; Yenileme (Hz): 120
+
+Bütçenize uyan ama fırsat sayılmayan ürünler:
+- Tessa TS55N1 55" LED 4K UHD Akıllı Televizyon Resmi Distribütör Garantili - 18.999 TL (magaza-b) [sentetik veri]
+   Karar: YETERSİZ VERİ
+   Neden: Geçmiş çok kısa: 20 gün / 15 gözlem günü (en az 90 gün ve 8 gözlem günü gerekir). Karar verilmedi.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
+- LED 4K UHD 140 cm Ekran Televizyon Novix NV-55U5 - 21.899 TL (magaza-c) [sentetik veri]
+   Karar: KOZMETİK İNDİRİM
+   Neden: Medyanın %9 altında ama gerçek fırsat değil (eşik %30).
+   Kanıt: 180 gün medyan 23.999 TL, 90 gün medyan 23.999 TL, 180 gün en düşük 21.799 TL, en yüksek 24.199 TL; 190 günlük geçmiş, 164 gözlem günü, 3 mağaza.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
+- QLED 4K UHD 140 cm Ekran Televizyon Orvia OR-55X9 - 21.999 TL (magaza-c) [sentetik veri]
+   Karar: SAHTE İNDİRİM
+   Neden: Görünen indirim %24, ama 180 günlük medyana göre fark yalnızca %0.
+   Kanıt: 180 gün medyan 21.999 TL, 90 gün medyan 22.099 TL, 180 gün en düşük 21.699 TL, en yüksek 28.799 TL; 185 günlük geçmiş, 138 gözlem günü, 2 mağaza.
+   Uyarı: Son 30 günde fiyat 28.799 TL'ye çıkarılmış (180 günlük medyan 21.999 TL); indirim bu şişirilmiş fiyattan hesaplanıyor.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: QLED; Akıllı TV: var; Yenileme (Hz): 100
+- LED 4K UHD 140 cm Ekran Televizyon Kestrel KS-55M3 - 22.499 TL (magaza-c) [sentetik veri]
+   Karar: SAHTE İNDİRİM
+   Neden: Görünen indirim %36, ama 180 günlük medyana göre fark yalnızca %2.
+   Kanıt: 180 gün medyan 22.999 TL, 90 gün medyan 22.999 TL, 180 gün en düşük 22.699 TL, en yüksek 23.299 TL; 190 günlük geçmiş, 129 gözlem günü, 2 mağaza.
+   Uyarı: Üstü çizili liste fiyatı (34.999 TL) son 180 günde hiç uygulanmamış; görülen en yüksek fiyat 23.299 TL.
+   Özellikler (mağaza kaydından): Çözünürlük: 4K UHD; Ekran (inç): 55; Panel: LED; Akıllı TV: var; Yenileme (Hz): 60
+
+Not: 'SAHTE İNDİRİM' olanlarda görünen indirim gerçek fiyat geçmişiyle desteklenmiyor.
+
+(Kural: 180 günlük medyanın en az %30 altında ve nadir görülen fiyat.)
+
